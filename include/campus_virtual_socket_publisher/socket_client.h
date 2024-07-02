@@ -9,7 +9,7 @@ namespace stella_vslam {
 class config;
 } // namespace stella_vslam
 
-namespace socket_publisher {
+namespace campus_virtual_socket_publisher {
 
 class socket_client {
 public:

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.1)
-project(socket_publisher LANGUAGES CXX C)
+project(campus_virtual_socket_publisher LANGUAGES CXX C)
 
 # ----- Find dependencies -----
 
@@ -31,7 +31,7 @@ option(BUILD_SHARED_LIBS "Build stella_vslam as a shared library" ON)
 
 # ----- Configure SocketPublisher library -----
 
-add_library(socket_publisher
+add_library(campus_virtual_socket_publisher
     ${CMAKE_CURRENT_SOURCE_DIR}/src/data_serializer.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/publisher.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/socket_client.cc
@@ -42,12 +42,12 @@ if(NOT MSVC)
                                 COMPILE_FLAGS -Wno-unused-variable)
 endif()
 
-set_target_properties(socket_publisher PROPERTIES
+set_target_properties(campus_virtual_socket_publisher PROPERTIES
     OUTPUT_NAME socket_publisher
     ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib
     LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 
-target_include_directories(socket_publisher
+target_include_directories(campus_virtual_socket_publisher
     PUBLIC
     "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/>"
     "$<BUILD_INTERFACE:${SIOCLIENT_INCLUDE_DIR}>"
@@ -56,7 +56,7 @@ target_include_directories(socket_publisher
     PRIVATE
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>")
 
-target_link_libraries(socket_publisher
+target_link_libraries(campus_virtual_socket_publisher
     PUBLIC
     stella_vslam::stella_vslam
     opencv_imgcodecs
@@ -97,7 +97,7 @@ set(INCLUDES_DESTINATION include)
 
 set(SOCKER_PUBLISHER_INCLUDE_INSTALL_DIR ${INCLUDES_DESTINATION}/socket_publisher)
 
-install(TARGETS socket_publisher
+install(TARGETS campus_virtual_socket_publisher
     EXPORT ${SOCKET_PUBLISHER_TARGETS_EXPORT_NAME}
     RUNTIME DESTINATION ${RUNTIME_DESTINATION}
     LIBRARY DESTINATION ${LIBRARY_DESTINATION}

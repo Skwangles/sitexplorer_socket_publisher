@@ -19,7 +19,7 @@ class map_publisher;
 
 } // namespace stella_vslam
 
-namespace socket_publisher {
+namespace campus_virtual_socket_publisher {
 
 class publisher {
 public:

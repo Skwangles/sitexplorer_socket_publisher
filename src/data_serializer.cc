@@ -1,4 +1,4 @@
-#include "socket_publisher/data_serializer.h"
+#include "campus_virtual_socket_publisher/data_serializer.h"
 
 #include "stella_vslam/data/keyframe.h"
 #include "stella_vslam/data/landmark.h"
@@ -12,7 +12,7 @@
 // map_segment.pb.h will be generated into build/src/socket_publisher/ when make
 #include "map_segment.pb.h"
 
-namespace socket_publisher {
+namespace campus_virtual_socket_publisher {
 
 std::string data_serializer::serialized_reset_signal_{};
 

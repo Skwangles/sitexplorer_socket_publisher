@@ -1,10 +1,10 @@
-#include "socket_publisher/publisher.h"
+#include "campus_virtual_socket_publisher/publisher.h"
 
 #include "stella_vslam/system.h"
 #include "stella_vslam/publish/frame_publisher.h"
 #include "stella_vslam/util/yaml.h"
 
-namespace socket_publisher {
+namespace campus_virtual_socket_publisher {
 
 publisher::publisher(const YAML::Node& yaml_node,
                      const std::shared_ptr<stella_vslam::system>& system,

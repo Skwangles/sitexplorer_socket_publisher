@@ -1,8 +1,8 @@
-#include "socket_publisher/socket_client.h"
+#include "campus_virtual_socket_publisher/socket_client.h"
 
 #include <spdlog/spdlog.h>
 
-namespace socket_publisher {
+namespace campus_virtual_socket_publisher {
 
 socket_client::socket_client(const std::string& server_uri)
     : client_(), callback_() {

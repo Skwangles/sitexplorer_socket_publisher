@@ -62,8 +62,7 @@ private:
 
     std::string serialize_as_protobuf(const std::vector<std::shared_ptr<stella_vslam::data::keyframe>>& keyfrms,
                                       const std::vector<std::shared_ptr<stella_vslam::data::landmark>>& all_landmarks,
-                                      const std::set<std::shared_ptr<stella_vslam::data::landmark>>& local_landmarks,
-                                      const stella_vslam::Mat44_t& current_camera_pose);
+                                      const std::set<std::shared_ptr<stella_vslam::data::landmark>>& local_landmarks);
 
     std::string base64_encode(unsigned char const* bytes_to_encode, unsigned int in_len);
 };

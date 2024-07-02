@@ -64,6 +64,12 @@ void publisher::run() {
     terminate();
 }
 
+
+void publisher::reset_map(){
+    client_->emit("map_publish", data_serializer::serialized_reset_signal_);
+    data_serializer_->clear_diff_map();
+}
+
 void publisher::callback(const std::string& message) {
     if (message == "disable_mapping_mode") {
         system_->disable_mapping_module();
@@ -76,6 +82,9 @@ void publisher::callback(const std::string& message) {
     }
     else if (message == "terminate") {
         request_terminate();
+    }
+    else if (message == "resend_map"){
+        reset_map();
     }
 }
 

@@ -26,6 +26,12 @@ data_serializer::data_serializer(const std::shared_ptr<stella_vslam::publish::fr
     data_serializer::serialized_reset_signal_ = serialize_messages(tags, messages);
 }
 
+void data_serializer::clear_diff_map(){
+    keyframe_hash_map_->clear();
+    point_hash_map_->clear();
+}
+
+
 std::string data_serializer::serialize_messages(const std::vector<std::string>& tags, const std::vector<std::string>& messages) {
     unsigned int length = std::min(tags.size(), messages.size());
 
@@ -54,16 +60,7 @@ std::string data_serializer::serialize_map_diff() {
         map_publisher_->get_landmarks(all_landmarks, local_landmarks);
     }
 
-    const auto current_camera_pose = map_publisher_->get_current_cam_pose();
-
-    const double pose_hash = get_mat_hash(current_camera_pose);
-    if (pose_hash == current_pose_hash_) {
-        current_pose_hash_ = pose_hash;
-        return "";
-    }
-    current_pose_hash_ = pose_hash;
-
-    return serialize_as_protobuf(keyframes, all_landmarks, local_landmarks, current_camera_pose);
+    return serialize_as_protobuf(keyframes, all_landmarks, local_landmarks);
 }
 
 std::string data_serializer::serialize_latest_frame(const unsigned int image_quality) {
@@ -78,8 +75,7 @@ std::string data_serializer::serialize_latest_frame(const unsigned int image_qua
 
 std::string data_serializer::serialize_as_protobuf(const std::vector<std::shared_ptr<stella_vslam::data::keyframe>>& keyfrms,
                                                    const std::vector<std::shared_ptr<stella_vslam::data::landmark>>& all_landmarks,
-                                                   const std::set<std::shared_ptr<stella_vslam::data::landmark>>& local_landmarks,
-                                                   const stella_vslam::Mat44_t& current_camera_pose) {
+                                                   const std::set<std::shared_ptr<stella_vslam::data::landmark>>& local_landmarks) {
     map_segment::map map;
     auto message = map.add_messages();
     message->set_tag("0");
@@ -229,14 +225,6 @@ std::string data_serializer::serialize_as_protobuf(const std::vector<std::shared
         map.add_local_landmarks(landmark->id_);
     }
 
-    // 5. current camera pose registration
-    map_segment::map_Mat44 pose_obj{};
-    for (int i = 0; i < 16; i++) {
-        int ir = i / 4;
-        int il = i % 4;
-        pose_obj.add_pose(current_camera_pose(ir, il));
-    }
-    map.set_allocated_current_frame(&pose_obj);
 
     std::string buffer;
     map.SerializeToString(&buffer);

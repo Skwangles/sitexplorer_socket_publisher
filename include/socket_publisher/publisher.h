@@ -36,6 +36,8 @@ public:
     void resume();
     void request_terminate();
     bool is_terminated();
+    
+    void reset_map();
 
 private:
     const std::shared_ptr<stella_vslam::system> system_;

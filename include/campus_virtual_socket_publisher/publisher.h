@@ -1,8 +1,8 @@
 #ifndef SOCKET_PUBLISHER_PUBLISHER_H
 #define SOCKET_PUBLISHER_PUBLISHER_H
 
-#include "socket_publisher/data_serializer.h"
-#include "socket_publisher/socket_client.h"
+#include "campus_virtual_socket_publisher/data_serializer.h"
+#include "campus_virtual_socket_publisher/socket_client.h"
 
 #include <mutex>
 #include <memory>

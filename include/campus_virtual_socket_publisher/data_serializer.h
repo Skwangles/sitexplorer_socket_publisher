@@ -1,5 +1,4 @@
-#ifndef SOCKET_PUBLISHER_DATA_SERIALIZER_H
-#define SOCKET_PUBLISHER_DATA_SERIALIZER_H
+#pragma once
 
 #include "stella_vslam/type.h"
 
@@ -68,5 +67,3 @@ private:
 };
 
 } // namespace socket_publisher
-
-#endif // SOCKET_PUBLISHER_DATA_SERIALIZER_H

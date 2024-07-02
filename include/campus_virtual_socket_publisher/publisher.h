@@ -1,5 +1,4 @@
-#ifndef SOCKET_PUBLISHER_PUBLISHER_H
-#define SOCKET_PUBLISHER_PUBLISHER_H
+#pragma once
 
 #include "campus_virtual_socket_publisher/data_serializer.h"
 #include "campus_virtual_socket_publisher/socket_client.h"
@@ -65,5 +64,3 @@ private:
 };
 
 } // namespace socket_publisher
-
-#endif // SOCKET_PUBLISHER_PUBLISHER_H

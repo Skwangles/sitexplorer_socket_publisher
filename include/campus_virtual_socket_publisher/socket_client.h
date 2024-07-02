@@ -1,5 +1,4 @@
-#ifndef SOCKET_PUBLISHER_SOCKET_CLIENT_H
-#define SOCKET_PUBLISHER_SOCKET_CLIENT_H
+#pragma once
 
 #include "stella_vslam/config.h"
 
@@ -36,5 +35,3 @@ private:
 };
 
 } // namespace socket_publisher
-
-#endif // SOCKET_PUBLISHER_SOCKET_CLIENT_H

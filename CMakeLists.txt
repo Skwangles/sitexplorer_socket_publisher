@@ -43,7 +43,7 @@ if(NOT MSVC)
 endif()
 
 set_target_properties(campus_virtual_socket_publisher PROPERTIES
-    OUTPUT_NAME socket_publisher
+    OUTPUT_NAME campus_virtual_socket_publisher
     ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib
     LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 

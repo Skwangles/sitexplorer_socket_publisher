@@ -3,8 +3,10 @@
 #include "stella_vslam/system.h"
 #include "stella_vslam/publish/frame_publisher.h"
 #include "stella_vslam/util/yaml.h"
+#include <iostream>
 
 namespace campus_virtual_socket_publisher {
+
 
 publisher::publisher(const YAML::Node& yaml_node,
                      const std::shared_ptr<stella_vslam::system>& system,
@@ -22,6 +24,7 @@ publisher::publisher(const YAML::Node& yaml_node,
 }
 
 void publisher::run() {
+
     is_terminated_ = false;
     is_paused_ = false;
 
@@ -31,6 +34,7 @@ void publisher::run() {
     while (true) {
         const auto t0 = std::chrono::system_clock::now();
 
+        is_reset_map();
         const auto serialized_map_data = data_serializer_->serialize_map_diff();
         if (!serialized_map_data.empty()) {
             client_->emit("map_publish", serialized_map_data);
@@ -65,9 +69,12 @@ void publisher::run() {
 }
 
 
-void publisher::reset_map(){
-    client_->emit("map_publish", data_serializer::serialized_reset_signal_);
-    data_serializer_->clear_diff_map();
+void publisher::is_reset_map(){
+    if(is_resend_requested_){
+        client_->emit("map_publish", data_serializer::serialized_reset_signal_);
+        data_serializer_->clear_diff_map();
+        is_resend_requested_ = false;
+    }
 }
 
 void publisher::callback(const std::string& message) {
@@ -84,7 +91,8 @@ void publisher::callback(const std::string& message) {
         request_terminate();
     }
     else if (message == "resend_map"){
-        reset_map();
+        std::cout << "resending map" << std::endl;
+        is_resend_requested_ = true;
     }
 }
 

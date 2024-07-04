@@ -37,6 +37,7 @@ public:
     bool is_terminated();
     
     void reset_map();
+    void is_reset_map();
 
 private:
     const std::shared_ptr<stella_vslam::system> system_;
@@ -61,6 +62,7 @@ private:
     std::mutex mtx_pause_;
     bool pause_is_requested_ = false;
     bool is_paused_ = true;
+    bool is_resend_requested_ = false;
 };
 
 } // namespace socket_publisher

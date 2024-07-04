@@ -60,6 +60,7 @@ std::string data_serializer::serialize_map_diff() {
         map_publisher_->get_landmarks(all_landmarks, local_landmarks);
     }
 
+
     return serialize_as_protobuf(keyframes, all_landmarks, local_landmarks);
 }
 
@@ -81,9 +82,13 @@ std::string data_serializer::serialize_as_protobuf(const std::vector<std::shared
     message->set_tag("0");
     message->set_txt("only map data");
 
+    const auto max_number_of_keyframes_per_socket_message = 1000; 
+
     std::forward_list<map_segment::map_keyframe*> allocated_keyframes;
 
     // 1. keyframe registration
+
+    int64 count = 0;
 
     std::unordered_map<unsigned int, double> next_keyframe_hash_map;
     for (const auto& keyfrm : keyfrms) {
@@ -91,21 +96,29 @@ std::string data_serializer::serialize_as_protobuf(const std::vector<std::shared
             continue;
         }
 
+        if (count > max_number_of_keyframes_per_socket_message) {
+                continue;
+        }
+
         const auto id = keyfrm->id_;
         const auto pose = keyfrm->get_pose_cw();
         const auto pose_hash = get_mat_hash(pose); // get zipped code (likely hash)
+
+       
 
         next_keyframe_hash_map[id] = pose_hash;
 
         // check whether the "point" has already been send.
         // and remove it from "keyframe_zip".
         if (keyframe_hash_map_->count(id) != 0) {
-            if (keyframe_hash_map_->at(id) == pose_hash) {
+            if (keyframe_hash_map_->at(id) == pose_hash){
                 keyframe_hash_map_->erase(id);
                 continue;
             }
             keyframe_hash_map_->erase(id);
         }
+
+        
 
         auto keyfrm_obj = map.add_keyframes();
         keyfrm_obj->set_id(keyfrm->id_);
@@ -117,6 +130,7 @@ std::string data_serializer::serialize_as_protobuf(const std::vector<std::shared
         }
         keyfrm_obj->set_allocated_pose(pose_obj);
         allocated_keyframes.push_front(keyfrm_obj);
+        count++;
     }
     // add removed keyframes.
     for (const auto& itr : *keyframe_hash_map_) {

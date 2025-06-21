@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.1)
-project(campus_virtual_socket_publisher LANGUAGES CXX C)
+project(sitexplorer_socket_publisher LANGUAGES CXX C)
 
 # ----- Find dependencies -----
 
@@ -31,7 +31,7 @@ option(BUILD_SHARED_LIBS "Build stella_vslam as a shared library" ON)
 
 # ----- Configure SocketPublisher library -----
 
-add_library(campus_virtual_socket_publisher
+add_library(sitexplorer_socket_publisher
     ${CMAKE_CURRENT_SOURCE_DIR}/src/data_serializer.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/publisher.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/socket_client.cc
@@ -42,12 +42,12 @@ if(NOT MSVC)
                                 COMPILE_FLAGS -Wno-unused-variable)
 endif()
 
-set_target_properties(campus_virtual_socket_publisher PROPERTIES
-    OUTPUT_NAME campus_virtual_socket_publisher
+set_target_properties(sitexplorer_socket_publisher PROPERTIES
+    OUTPUT_NAME sitexplorer_socket_publisher
     ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib
     LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 
-target_include_directories(campus_virtual_socket_publisher
+target_include_directories(sitexplorer_socket_publisher
     PUBLIC
     "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/>"
     "$<BUILD_INTERFACE:${SIOCLIENT_INCLUDE_DIR}>"
@@ -56,7 +56,7 @@ target_include_directories(campus_virtual_socket_publisher
     PRIVATE
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>")
 
-target_link_libraries(campus_virtual_socket_publisher
+target_link_libraries(sitexplorer_socket_publisher
     PUBLIC
     stella_vslam::stella_vslam
     opencv_imgcodecs
@@ -95,15 +95,15 @@ set(LIBRARY_DESTINATION lib)
 set(ARCHIVE_DESTINATION lib)
 set(INCLUDES_DESTINATION include)
 
-set(SOCKER_PUBLISHER_INCLUDE_INSTALL_DIR ${INCLUDES_DESTINATION}/campus_virtual_socket_publisher)
+set(SOCKER_PUBLISHER_INCLUDE_INSTALL_DIR ${INCLUDES_DESTINATION}/sitexplorer_socket_publisher)
 
-install(TARGETS campus_virtual_socket_publisher
+install(TARGETS sitexplorer_socket_publisher
     EXPORT ${SOCKET_PUBLISHER_TARGETS_EXPORT_NAME}
     RUNTIME DESTINATION ${RUNTIME_DESTINATION}
     LIBRARY DESTINATION ${LIBRARY_DESTINATION}
     ARCHIVE DESTINATION ${ARCHIVE_DESTINATION}
     INCLUDES DESTINATION ${SOCKER_PUBLISHER_INCLUDE_INSTALL_DIR})
 
-file(GLOB HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/include/campus_virtual_socket_publisher/*.h")
+file(GLOB HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/include/sitexplorer_socket_publisher/*.h")
 install(FILES ${HEADERS}
     DESTINATION ${SOCKER_PUBLISHER_INCLUDE_INSTALL_DIR})
